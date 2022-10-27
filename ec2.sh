@@ -7,6 +7,8 @@ SUBNET_PUBLIC_NAME="public subnet"
 SUBNET_PRIVATE_CIDR="10.0.2.0/24"
 SUBNET_PRIVATE_AZ="ap-south-1b"
 SUBNET_PRIVATE_NAME="private subnet"
+SG_NAME="SGP1"
+
 
 ------------------------------------------------------
 #
@@ -113,3 +115,12 @@ aws ec2 modify-subnet-attribute \
   --region $AWS_REGION
 echo "  'Auto-assign Public IP' ENABLED on Public Subnet ID" \
   "'$SUBNET_PUBLIC_ID'."
+
+# create security group
+echo " creating security group"  
+SECURITYGROUP_ID=$(aws ec2 create-security-group \
+--group-name $SG_NAME \
+--description "My security group" \
+--vpc-id $VPC_ID \
+--output text \
+--region $AWS_REGION)   
