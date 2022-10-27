@@ -8,6 +8,8 @@ SUBNET_PRIVATE_CIDR="10.0.2.0/24"
 SUBNET_PRIVATE_AZ="ap-south-1b"
 SUBNET_PRIVATE_NAME="private subnet"
 SG_NAME="SGP1"
+IMAGE_ID="ami-024c319d5d14b463e"
+INSTANCE_TYPE="t2.micro"
 
 
 ------------------------------------------------------
@@ -124,3 +126,20 @@ SECURITYGROUP_ID=$(aws ec2 create-security-group \
 --vpc-id $VPC_ID \
 --output text \
 --region $AWS_REGION)   
+echo " security group id is '$SECURITYGROUP_ID'"
+
+# create ec2 instance
+echo " creating ec2 instance...."
+EC2_ID=$(aws ec2 run-instances \
+--region  $AWS_REGION \
+--count 1 \
+--image-id $IMAGE_ID \
+--instance-type $INSTANCE_TYPE \
+--key-name id_rsa \
+--security-group-ids $SECURITYGROUP_ID \
+--subnet-id $SUBNET_PUBLIC_ID  \
+--associate-public-ip-address \
+--tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=bastionserver}]" \
+--query Instances[0].InstanceId \
+--query Instances[0].InstanceType)
+echo " ec2 instance id is '$EC2_ID'"
