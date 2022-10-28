@@ -140,6 +140,6 @@ EC2_ID=$(aws ec2 run-instances \
 --subnet-id $SUBNET_PUBLIC_ID  \
 --associate-public-ip-address \
 --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=bastionserver}]" \
---query Instances[0].InstanceId \
---query Instances[0].InstanceType)
+--query Instances[0].InstanceId 
+#--query Instances[0].InstanceType)
 echo " ec2 instance id is '$EC2_ID'"
