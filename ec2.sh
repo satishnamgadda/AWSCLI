@@ -133,7 +133,7 @@ echo " security group id is '$SECURITYGROUP_ID'"
        --group-id $SECURITYGROUP_ID \
        --protocol tcp \
        --port 22 \
-       --cidr $VPC_CIDR
+       --cidr 0.0.0.0/0
 
 # create ec2 instance
 echo " creating ec2 instance...."
