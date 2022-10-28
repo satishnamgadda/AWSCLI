@@ -127,6 +127,13 @@ SECURITYGROUP_ID=$(aws ec2 create-security-group \
 --output text \
 --region $AWS_REGION)   
 echo " security group id is '$SECURITYGROUP_ID'"
+# ingress rules
+ aws ec2 authorize-security-group-ingress \
+       --region $AWS_REGION \
+       --group-id $SECURITYGROUP_ID \
+       --protocol tcp \
+       --port 22 \
+       --cidr $VPC_CIDR
 
 # create ec2 instance
 echo " creating ec2 instance...."
